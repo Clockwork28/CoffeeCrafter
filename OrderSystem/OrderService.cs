@@ -37,6 +37,7 @@ namespace CoffeeCrafter.OrderSystem
                 if (order != null)
                     tasks.Add(HandleOrder(order));
                 await Task.Delay(2000);
+                _clientsManager.RandomCancel();
             }
             await Task.WhenAll(tasks);
             
@@ -52,18 +53,29 @@ namespace CoffeeCrafter.OrderSystem
         }
         public async Task HandleOrder(OrderDTO order)
         {
-            var beverage = await _coffeeFactory.Make(order);
-            await _logger.LogOrder(order.id, beverage);
             if (_clientsManager.Clients.ContainsKey(order.id))
             {
-                NotifyObserver(_clientsManager.Clients.GetValueOrDefault(order.id)!, order.id);
-                _clientsManager.RemoveClient(order.id);
+                try
+                {
+
+                    var beverage = await _coffeeFactory.Make(order, _clientsManager.Clients.GetValueOrDefault(order.id)!.Token);
+                    await _logger.LogOrder(order.id, beverage);
+                    NotifyObserver(_clientsManager.Clients.GetValueOrDefault(order.id)!, order.id);
+                    _clientsManager.RemoveClient(order.id);
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[ID: {order.id}] ");
+                    Console.ResetColor();
+                    Console.Write("Order was cancelled by the client.\n");
+                }
+                
             }
                 
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                throw new Exception($"Cannot notify client with order ID {order.id}: \nNo such client in the list.");
+                throw new Exception($"The client with order ID {order.id} does not exist in the list.");
             }
         }
     }

@@ -30,6 +30,6 @@ using (var logger = serviceProvider.GetRequiredService<Logger>())
     await Task.WhenAll(clientsRuntime, orderRuntime);
 }
 
-Console.WriteLine("Finish");
+Console.WriteLine("\nClosing coffee shop...");
 // TODO: Add a LINQ-based daily report generator that processes the log after runtime ends,
 //       summarizing the orders according to predefined reporting requirements.

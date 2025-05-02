@@ -46,7 +46,6 @@ namespace CoffeeCrafter.Clients
                 var order = GenerateOrder();
                 _orderService.PlaceOrder(order);
                 _clientsManager.AddClient(order.id, new Client());
-   
         }
 
         public async Task Run()

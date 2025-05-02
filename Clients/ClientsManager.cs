@@ -15,15 +15,24 @@ namespace CoffeeCrafter.Clients
         }
         public void AddClient(int id, Client client)
         {
-            //if (!Clients.ContainsKey(id))
+            if (!Clients.ContainsKey(id))
                 Clients.Add(id, client);
-            //else
-             //   Console.ForegroundColor = ConsoleColor.Red;
-              //  throw new ArgumentException($"Order ID already in the list!");
+            else
+               throw new ArgumentException($"Order ID already in the list!");
         }
         public void RemoveClient(int id)
         {
             Clients.Remove(id);
+        }
+
+        public void RandomCancel()
+        {
+            Random rnd = new();
+            int roll = rnd.Next(100);
+            if (roll > 85)
+            {
+                Clients.Last().Value.CancelOrder();
+            }
         }
     }
 }
