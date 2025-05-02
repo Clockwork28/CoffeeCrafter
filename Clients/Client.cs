@@ -11,9 +11,14 @@ namespace CoffeeCrafter.Clients
     {
         private readonly CancellationTokenSource _cts = new();
         public CancellationToken Token => _cts.Token;
-        public void Update()
+
+        public void Update(int id)
         {
-            Console.WriteLine($"{Console.ForegroundColor = ConsoleColor.DarkGreen}Client: {Console.ResetColor}Thank you for my Coffee!");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write($"[ID: {id}] ");
+            Console.ResetColor();
+            Console.Write("Client: Thank you for my coffee!\n");
+            
         }
 
         public void CancelOrder()

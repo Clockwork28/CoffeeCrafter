@@ -16,6 +16,7 @@ namespace CoffeeCrafter.ServingStrategies
         {
             NormalQueue = new ConcurrentQueue<OrderDTO>();
         }
+
         public void Enqueue(OrderDTO order)
         {
             NormalQueue.Enqueue(order);

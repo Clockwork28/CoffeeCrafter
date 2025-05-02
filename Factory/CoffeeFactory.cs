@@ -14,15 +14,14 @@ namespace CoffeeCrafter.Factory
     {
         public async Task<IBeverage> Make(OrderDTO order)
         {
-            await (order.type.ToLowerInvariant() switch
+            return await (order.type.ToLowerInvariant() switch
             {
                 "espresso" => HandleExtra(new Espresso(5M), order.id, order.extras),
                 "americano" => HandleExtra(new Americano(7M), order.id, order.extras),
                 "cappuccino" => HandleExtra(new Cappuccino(9M), order.id, order.extras),
                 "latte" => HandleExtra(new Latte(10M), order.id, order.extras),
-                _ => throw new ArgumentException($"{Console.ForegroundColor = ConsoleColor.Red}Invalid coffee type!{Console.ResetColor}")
+                _ => throw new ArgumentException($"Invalid coffee type!")
             });
-            return null!;
         }
         public async Task<IBeverage> HandleExtra(IBeverage beverage, int id, string[] extras)
         {
@@ -35,10 +34,15 @@ namespace CoffeeCrafter.Factory
 
             if (extrasSet.Contains("syrup"))
                 beverage = new SyrupDecorator(beverage);
-
-            Console.WriteLine($"{Console.ForegroundColor = ConsoleColor.DarkBlue}[{id}] {Console.ResetColor}Making {beverage.GetDescription()}");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write($"[ID: {id}] ");
+            Console.ResetColor();
+            Console.Write($"Making {beverage.GetDescription()}\n");
             await Task.Delay(beverage.PrepTime);
-            Console.WriteLine($"{Console.ForegroundColor = ConsoleColor.DarkBlue}[{id}] {Console.ResetColor}{beverage.GetDescription} is ready!");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"[ID: {id}] ");
+            Console.ResetColor();
+            Console.Write($"{beverage.GetDescription()} is ready!\n");
 
             return beverage;
            

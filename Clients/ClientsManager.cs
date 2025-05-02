@@ -15,10 +15,11 @@ namespace CoffeeCrafter.Clients
         }
         public void AddClient(int id, Client client)
         {
-            if (!Clients.ContainsKey(id))
+            //if (!Clients.ContainsKey(id))
                 Clients.Add(id, client);
-            else
-                throw new ArgumentException($"{Console.ForegroundColor = ConsoleColor.Red}Order ID already in the list!{Console.ResetColor}");
+            //else
+             //   Console.ForegroundColor = ConsoleColor.Red;
+              //  throw new ArgumentException($"Order ID already in the list!");
         }
         public void RemoveClient(int id)
         {

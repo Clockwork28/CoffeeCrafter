@@ -16,6 +16,7 @@ namespace CoffeeCrafter.ServingStrategies
         {
             VipQueue = new ConcurrentQueue<OrderDTO>();
         }
+
         public void Enqueue(OrderDTO order)
         {
             VipQueue.Enqueue(order);

@@ -11,10 +11,10 @@ namespace CoffeeCrafter.ServingStrategies
     internal class StrategyManager
     {
         private int VipCounter = 0;
-        public IServingStrategy _normalQueue;
+        public NormalQueueStrategy _normalQueue;
         public VipQueueStrategy _vipQueue;
 
-        public StrategyManager(IServingStrategy normalQ, VipQueueStrategy vipQ)
+        public StrategyManager(NormalQueueStrategy normalQ, VipQueueStrategy vipQ)
         {
             _normalQueue = normalQ;
             _vipQueue = vipQ;
@@ -63,6 +63,14 @@ namespace CoffeeCrafter.ServingStrategies
 
 
             }
+        }
+
+        public bool AreQueuesEmpty()
+        {
+            if (_vipQueue.VipQueue.IsEmpty && _normalQueue.NormalQueue.IsEmpty)
+                return true;
+
+            return false;
         }
 
     }

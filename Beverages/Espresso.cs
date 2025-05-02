@@ -15,7 +15,7 @@ namespace CoffeeCrafter.Beverages
         public Espresso(decimal c)
         {
             Cost = c;
-            PrepTime = 700;
+            PrepTime = 5000;
         }
         public decimal GetCost()
         {

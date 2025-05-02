@@ -17,7 +17,7 @@ namespace CoffeeCrafter.Beverages
         public Americano(decimal c)
         {
             Cost = c;
-            PrepTime = 1100;
+            PrepTime = 8000;
         }
         public decimal GetCost()
         {

@@ -34,7 +34,9 @@ namespace CoffeeCrafter.Loggers
         public void Dispose()
         {
             _writer.Close();
-            Console.WriteLine($"{Console.ForegroundColor = ConsoleColor.DarkYellow}LOGGER: Log.txt saved.{Console.ResetColor}");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"LOGGER: Log.txt saved.");
+            Console.ResetColor();
         }
     }
 }

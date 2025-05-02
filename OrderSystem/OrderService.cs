@@ -14,34 +14,56 @@ namespace CoffeeCrafter.OrderSystem
 {
     internal class OrderService
     {
-        private StrategyManager _manager;
+        private StrategyManager _strategyManager;
         private ClientsManager _clientsManager;
         private CoffeeFactory _coffeeFactory;
-        private Logger _logger;
-        public OrderService(StrategyManager manager, CoffeeFactory coffeeFactory, ClientsManager clientsManager, Logger logger)
+        private ILogger _logger;
+        public OrderService(StrategyManager manager, CoffeeFactory coffeeFactory, ClientsManager clientsManager, ILogger logger)
         {
-            _manager = manager;
+            _strategyManager = manager;
             _clientsManager = clientsManager;
             _coffeeFactory = coffeeFactory;
             _logger = logger;
         }
- 
-        public void NotifyObserver(IObserver observer)
+
+        public async Task Run()
         {
-                observer.Update();
+            var tasks = new List<Task>();
+            while(!_strategyManager.AreQueuesEmpty())
+            {
+                Console.ResetColor();
+
+                var order = _strategyManager.DequeueStrategy();
+                if (order != null)
+                    tasks.Add(HandleOrder(order));
+                await Task.Delay(2000);
+            }
+            await Task.WhenAll(tasks);
+            
+        }
+ 
+        private void NotifyObserver(IObserver observer, int id)
+        {
+                observer.Update(id);
         }
         public void PlaceOrder(OrderDTO order)
         {
-            _manager.EnqueueStrategy(order);
+            _strategyManager.EnqueueStrategy(order);
         }
         public async Task HandleOrder(OrderDTO order)
         {
-            await _logger.LogOrder(order.id, await _coffeeFactory.Make(order));
+            var beverage = await _coffeeFactory.Make(order);
+            await _logger.LogOrder(order.id, beverage);
             if (_clientsManager.Clients.ContainsKey(order.id))
-                NotifyObserver(_clientsManager.Clients.GetValueOrDefault(order.id)!);
+            {
+                NotifyObserver(_clientsManager.Clients.GetValueOrDefault(order.id)!, order.id);
+                _clientsManager.RemoveClient(order.id);
+            }
+                
             else
             {
-                throw new Exception($"{Console.ForegroundColor = ConsoleColor.Red}Cannot notify client with order ID {order.id}: \nNo such client in the list.{Console.ResetColor}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                throw new Exception($"Cannot notify client with order ID {order.id}: \nNo such client in the list.");
             }
         }
     }
