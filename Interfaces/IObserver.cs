@@ -8,6 +8,6 @@ namespace CoffeeCrafter.Interfaces
 {
     interface IObserver
     {
-        void Update(int id);
+        void Update(int id, decimal cost);
     }
 }

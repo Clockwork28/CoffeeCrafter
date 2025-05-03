@@ -9,6 +9,6 @@ namespace CoffeeCrafter.Interfaces
 {
     interface ILogger 
     {
-        Task LogOrder(int id, IBeverage beverage);
+        Task LogOrder(int id, IBeverage beverage, decimal tip);
     }
 }

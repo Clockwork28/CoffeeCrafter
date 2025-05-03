@@ -18,6 +18,7 @@ services.AddSingleton<Logger>();
 services.AddSingleton<ILogger>(sp => sp.GetRequiredService<Logger>());
 services.AddSingleton<OrderService>();
 services.AddSingleton<ClientsGenerator>();
+services.AddSingleton<Reporter>();
 
 
 var serviceProvider = services.BuildServiceProvider();
@@ -25,11 +26,17 @@ using (var logger = serviceProvider.GetRequiredService<Logger>())
 {
     var orderService = serviceProvider.GetRequiredService<OrderService>();
     var clientsGenerator = serviceProvider.GetRequiredService<ClientsGenerator>();
+
     var clientsRuntime = clientsGenerator.Run();
     var orderRuntime = orderService.Run();
     await Task.WhenAll(clientsRuntime, orderRuntime);
 }
 
+using (var reporter = serviceProvider.GetRequiredService<Reporter>())
+{
+    await reporter.GenerateReport();
+}
+
+Console.ForegroundColor = ConsoleColor.DarkGray;
 Console.WriteLine("\nClosing coffee shop...");
-// TODO: Add a LINQ-based daily report generator that processes the log after runtime ends,
-//       summarizing the orders according to predefined reporting requirements.
+Console.ResetColor();

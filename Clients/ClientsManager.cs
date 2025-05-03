@@ -29,7 +29,7 @@ namespace CoffeeCrafter.Clients
         {
             Random rnd = new();
             int roll = rnd.Next(100);
-            if (roll > 85)
+            if (roll > 84)
             {
                 Clients.Last().Value.CancelOrder();
             }

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.Loggers
 {
-    internal record LogEntry(int Id, string Description, decimal Cost, int PrepTime);
+    internal record LogEntry(int Id, string Description, decimal Cost, int PrepTime, decimal Tip);
 }

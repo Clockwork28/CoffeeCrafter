@@ -14,15 +14,16 @@ namespace CoffeeCrafter.Loggers
         private StreamWriter _writer;
         public Logger()
         {
-            _writer = new("Log.json", append: true);
+            _writer = new("Log.json", false);
         }
-        public async Task LogOrder(int id, IBeverage beverage)
+        public async Task LogOrder(int id, IBeverage beverage, decimal tip)
         {
             var entry = new LogEntry(
                 id,
                 beverage.GetDescription(),
                 beverage.GetCost(),
-                beverage.PrepTime
+                beverage.PrepTime,
+                tip
             );
             var json = JsonSerializer.Serialize(entry, new JsonSerializerOptions
             {
@@ -34,8 +35,8 @@ namespace CoffeeCrafter.Loggers
         public void Dispose()
         {
             _writer.Close();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine($"LOGGER: Log.txt saved.");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nLOGGER: Log.json saved.");
             Console.ResetColor();
         }
     }

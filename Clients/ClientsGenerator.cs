@@ -10,6 +10,7 @@ namespace CoffeeCrafter.Clients
     internal class ClientsGenerator
     {
         private static int Counter;
+        private static int MaxClients = 30;
         private string[] CoffeeTypes { get; init; }
         private string[] Extras { get; init; }
         private ClientsManager _clientsManager;
@@ -25,7 +26,7 @@ namespace CoffeeCrafter.Clients
         private string StatusPicker()
         {
             Random rnd = new();
-            int roll = rnd.Next();
+            int roll = rnd.Next(100);
 
             if (roll < 70)
                 return "NORMAL";
@@ -50,7 +51,7 @@ namespace CoffeeCrafter.Clients
 
         public async Task Run()
         {
-            while (Counter < 30)
+            while (Counter < MaxClients)
             {
                 GenerateClient();
                 await Task.Delay(1000);

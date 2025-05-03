@@ -16,14 +16,14 @@ namespace CoffeeCrafter.Factory
         {
             return await (order.type.ToLowerInvariant() switch
             {
-                "espresso" => HandleExtra(new Espresso(5M), order.id, order.extras, token),
-                "americano" => HandleExtra(new Americano(7M), order.id, order.extras, token),
-                "cappuccino" => HandleExtra(new Cappuccino(9M), order.id, order.extras, token),
-                "latte" => HandleExtra(new Latte(10M), order.id, order.extras, token),
+                "espresso" => HandleExtra(new Espresso(5M), order.status, order.id, order.extras, token),
+                "americano" => HandleExtra(new Americano(7M), order.status, order.id, order.extras, token),
+                "cappuccino" => HandleExtra(new Cappuccino(9M), order.status, order.id, order.extras, token),
+                "latte" => HandleExtra(new Latte(10M), order.status, order.id, order.extras, token),
                 _ => throw new ArgumentException($"Invalid coffee type!")
             });
         }
-        public async Task<IBeverage> HandleExtra(IBeverage beverage, int id, string[] extras, CancellationToken token)
+        public async Task<IBeverage> HandleExtra(IBeverage beverage, string status, int id, string[] extras, CancellationToken token)
         {
             var extrasSet = extras.Select(x => x.ToLowerInvariant()).ToHashSet();
             if (extrasSet.Contains("milk"))
@@ -35,12 +35,12 @@ namespace CoffeeCrafter.Factory
             if (extrasSet.Contains("syrup"))
                 beverage = new SyrupDecorator(beverage);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"[ID: {id}] ");
+            Console.Write($"[ID: {id}] [{status[0]}] ");
             Console.ResetColor();
             Console.Write($"Making {beverage.GetDescription()}\n");
             await Task.Delay(beverage.PrepTime, token);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"[ID: {id}] ");
+            Console.Write($"[ID: {id}] [{status[0]}] ");
             Console.ResetColor();
             Console.Write($"{beverage.GetDescription()} is ready!\n");
 

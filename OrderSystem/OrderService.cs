@@ -36,16 +36,16 @@ namespace CoffeeCrafter.OrderSystem
                 var order = _strategyManager.DequeueStrategy();
                 if (order != null)
                     tasks.Add(HandleOrder(order));
-                await Task.Delay(2000);
+                await Task.Delay(3000);
                 _clientsManager.RandomCancel();
             }
             await Task.WhenAll(tasks);
             
         }
  
-        private void NotifyObserver(IObserver observer, int id)
+        private void NotifyObserver(IObserver observer, int id, decimal cost)
         {
-                observer.Update(id);
+                observer.Update(id, cost);
         }
         public void PlaceOrder(OrderDTO order)
         {
@@ -57,10 +57,10 @@ namespace CoffeeCrafter.OrderSystem
             {
                 try
                 {
-
-                    var beverage = await _coffeeFactory.Make(order, _clientsManager.Clients.GetValueOrDefault(order.id)!.Token);
-                    await _logger.LogOrder(order.id, beverage);
-                    NotifyObserver(_clientsManager.Clients.GetValueOrDefault(order.id)!, order.id);
+                    var client = _clientsManager.Clients.GetValueOrDefault(order.id);
+                    var beverage = await _coffeeFactory.Make(order, client!.Token);
+                    NotifyObserver(client, order.id, beverage.GetCost());
+                    await _logger.LogOrder(order.id, beverage, client.Tip);
                     _clientsManager.RemoveClient(order.id);
                 }
                 catch (OperationCanceledException)
