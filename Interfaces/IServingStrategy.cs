@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.Interfaces
 {
-    interface IServingStrategy
+    public interface IServingStrategy
     {
         void Enqueue(OrderDTO order);
         OrderDTO? Dequeue();

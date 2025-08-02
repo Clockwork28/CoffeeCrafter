@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.Interfaces
 {
-    interface IBeverage
+    public interface IBeverage
     {
         public int PrepTime { get; }
         decimal GetCost();

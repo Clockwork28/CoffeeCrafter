@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.Interfaces
 {
-    interface ILogger 
+    public interface ILogger 
     {
         Task LogOrder(int id, IBeverage beverage, decimal tip);
     }

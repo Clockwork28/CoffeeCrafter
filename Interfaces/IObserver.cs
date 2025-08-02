@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.Interfaces
 {
-    interface IObserver
+    public interface IObserver
     {
         void Update(int id, decimal cost);
     }
