@@ -22,7 +22,7 @@ namespace CoffeeCrafter.ServingStrategies
 
         public void EnqueueStrategy(OrderDTO order)
         {
-            if (order.status.ToUpper() == "VIP")
+            if (order.priority.ToUpper() == "VIP")
                 _vipQueue.Enqueue(order);
             else
                 _normalQueue.Enqueue(order);

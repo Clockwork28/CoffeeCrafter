@@ -16,10 +16,10 @@ namespace CoffeeCrafter.Factory
         {
             return await (order.type.ToLowerInvariant() switch
             {
-                "espresso" => HandleExtra(new Espresso(5M), order.status, order.id, order.extras, token),
-                "americano" => HandleExtra(new Americano(7M), order.status, order.id, order.extras, token),
-                "cappuccino" => HandleExtra(new Cappuccino(9M), order.status, order.id, order.extras, token),
-                "latte" => HandleExtra(new Latte(10M), order.status, order.id, order.extras, token),
+                "espresso" => HandleExtra(new Espresso(5M), order.priority, order.id, order.extras, token),
+                "americano" => HandleExtra(new Americano(7M), order.priority, order.id, order.extras, token),
+                "cappuccino" => HandleExtra(new Cappuccino(9M), order.priority, order.id, order.extras, token),
+                "latte" => HandleExtra(new Latte(10M), order.priority, order.id, order.extras, token),
                 _ => throw new ArgumentException($"Invalid coffee type!")
             });
         }

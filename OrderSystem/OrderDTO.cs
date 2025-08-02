@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CoffeeCrafter.OrderSystem
 {
-    public record OrderDTO(int id, string type, string status, params string[] extras);
+    public record OrderDTO(int id, string type, string priority, params string[] extras);
 }
