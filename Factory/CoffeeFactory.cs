@@ -23,7 +23,7 @@ namespace CoffeeCrafter.Factory
                 _ => throw new ArgumentException($"Invalid coffee type!")
             });
         }
-        public async Task<IBeverage> HandleExtra(IBeverage beverage, string status, int id, string[] extras, CancellationToken token)
+        public async Task<IBeverage> HandleExtra(IBeverage beverage, string priority, int id, string[] extras, CancellationToken token)
         {
             var extrasSet = extras.Select(x => x.ToLowerInvariant()).ToHashSet();
             if (extrasSet.Contains("milk"))
@@ -35,12 +35,12 @@ namespace CoffeeCrafter.Factory
             if (extrasSet.Contains("syrup"))
                 beverage = new SyrupDecorator(beverage);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"[ID: {id}] [{status[0]}] ");
+            Console.Write($"[ID: {id}] [{priority[0]}] ");
             Console.ResetColor();
             Console.Write($"Making {beverage.GetDescription()}\n");
             await Task.Delay(beverage.PrepTime, token);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"[ID: {id}] [{status[0]}] ");
+            Console.Write($"[ID: {id}] [{priority[0]}] ");
             Console.ResetColor();
             Console.Write($"{beverage.GetDescription()} is ready!\n");
 
