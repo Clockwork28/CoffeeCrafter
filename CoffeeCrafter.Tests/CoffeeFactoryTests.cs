@@ -8,22 +8,19 @@ namespace CoffeeCrafter.Tests;
 
 public class CoffeeFactoryTests
 {
-    /*-[Fact]
-    public async Task Make_ValidOrderNoExtras_ReturnRequestedBeverage()
+    [Fact]
+    public async Task Make_InValidOrder_ThrowsInvalidArgumentError()
     {
         // Arrange
         var factory = new CoffeeFactory();
-        var order = new OrderDTO(1, "americano", "vip");
-        var expectedBeverage = new Americano(7M);
+        var order = new OrderDTO(1, "mocha", "vip");
 
-        // Act
-        var beverage = await factory.Make(order, CancellationToken.None);
+        // Act + Assert
+        var exception = await Assert.ThrowsAsync<ArgumentException>(async Task () => await factory.Make(order, CancellationToken.None));
 
-        // Assert
-        Assert.Equal(expectedBeverage.GetCost(), beverage.GetCost());
-        Assert.Equal(expectedBeverage.GetDescription(), beverage.GetDescription());
-        
-    }*/
+        Assert.Equal("Invalid coffee type!", exception.Message);
+
+    }
 
     public static IEnumerable<object[]> ValidOrders => new[]
     {
@@ -43,4 +40,5 @@ public class CoffeeFactoryTests
         Assert.Equal(expected.GetCost(), actual.GetCost());
         Assert.Equal(expected.GetDescription(), actual.GetDescription());
     }
+
 }
